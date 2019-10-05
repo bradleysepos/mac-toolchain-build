@@ -23,7 +23,7 @@ Usage
 The basic syntax is:
 
 ```
-mac-toolchain-build [install-dir]
+mac-toolchain-build [-f | --force] [install-dir]
 ```
 
 Where:
