@@ -37,7 +37,7 @@ Following successful building of the toolchain components, the script provides i
 Full usage:
 
 ```
-mingw-w64-build -h
+mac-toolchain-build -h
 ```
 
 Components
