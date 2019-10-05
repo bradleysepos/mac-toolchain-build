@@ -401,7 +401,7 @@ default install-dir: /usr/local"
     done
 
     # build
-    local COUNT
+    local INDEX
 
     # autoconf
     INDEX=0
