@@ -354,7 +354,7 @@ default install-dir: /usr/local"
 
     # host
     local CPU_COUNT
-    CPU_COUNT=$(sysctl -n hw.ncpu 2>/dev/null)
+    CPU_COUNT=$(sysctl -n hw.activecpu 2>/dev/null)
     CPU_COUNT="${CPU_COUNT:-1}"
 
     # verify/fetch
