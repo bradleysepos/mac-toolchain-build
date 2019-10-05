@@ -214,7 +214,7 @@ function mac_toolchain_build {
     # internal vars
     local NAME VERSION SELF SELF_NAME HELP CREL SUDO TOTAL
     NAME="mac-toolchain-build"
-    VERSION="1.0.0"
+    VERSION="1.1.0"
     SELF="${BASH_SOURCE[0]}"
     SELF_NAME=$(basename "${SELF}")
     HELP="\
