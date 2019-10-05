@@ -471,7 +471,7 @@ default install-dir: /usr/local"
     INDEX=$((INDEX+1))
     printf "Building    [%02i/%02i] %s " "$((INDEX+1))" "${TOTAL}" "${NAMES[$INDEX]} ${VERSIONS[$INDEX]}"
     if [[ "${SKIP[$INDEX]}" == true ]]; then
-        echo "(${INSTALLED_VERSIONS[$INDEX]} installed, skipping)"
+        echo "(${INSTALLED_VERSIONS[$INDEX]} installed globally, skipping)"
     else
         [[ "${SUDO}" != "" ]] && ${SUDO} -v
         touch "${BUILD_DIR}/${NAMES[$INDEX]}.log"
