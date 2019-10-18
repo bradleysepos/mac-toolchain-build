@@ -38,8 +38,9 @@ Following successful building of the toolchain components, the script provides i
 Full usage:
 
 ```
-mac-toolchain-build -h
+mac-toolchain-build --help
 ```
+
 
 Components
 ----------
