@@ -631,7 +631,7 @@ default install-dir: /usr/local"
     ${SUDO} rm -rf "${PKG_DIR}"
 
     # done
-    if [[ "${PREFIX}" != "/usr/local" ]]; then
+    if [[ "${PREFIX}" != "/usr/local" ]] && [[ "${NOT_SKIPPED_TOTAL}" -gt 0 ]]; then
         echo "  run the following command and add it to your shell startup script"
         echo "  (e.g., .bashrc or .bash_profile) to make persistent across sessions:"
         echo "    export PATH=\"${PREFIX}/bin:\${PATH}\""
