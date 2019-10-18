@@ -23,12 +23,13 @@ Usage
 The basic syntax is:
 
 ```
-mac-toolchain-build [-f | --force] [install-dir]
+mac-toolchain-build [-f | --force] [-j # | --jobs #] [install-dir]
 ```
 
 Where:
 
 - `-f, --force` force installation even if adequate versions of tools are installed
+- `-j, --jobs` number of concurrent build jobs to run, default: 0 (automatic)
 
 Default installation directory is `/usr/local`.
 
@@ -51,6 +52,12 @@ Components
 - nasm
 - ninja
 - pkg-config
+
+Display components list with version information:
+
+```
+mac-toolchain-build --list
+```
 
 
 License
