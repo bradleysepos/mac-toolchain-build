@@ -191,7 +191,7 @@ function mac_toolchain_build {
     CHECKSUMS=("${AUTOCONF_SHA256}" "${AUTOMAKE_SHA256}" "${CMAKE_SHA256}" "${LIBTOOL_SHA256}" "${MESON_SHA256}" "${NASM_SHA256}" "${NINJA_SHA256}" "${PKGCONFIG_SHA256}")
 
     # internal vars
-    local NAME VERSION SELF SELF_NAME HELP CREL SUDO TOTAL
+    local NAME VERSION SELF SELF_NAME HELP SUDO TOTAL
     NAME="mac-toolchain-build"
     VERSION="1.2.0"
     SELF="${BASH_SOURCE[0]}"
@@ -215,7 +215,6 @@ where:
         number of concurrent build jobs to run
         default: 0 (automatic)
 default install-dir: /usr/local"
-    CREL=$(echo -e "\r"$(tput el))
     SUDO=
     TOTAL="${#NAMES[@]}"
 
@@ -348,13 +347,10 @@ default install-dir: /usr/local"
     shift $((OPTIND - 1))
 
     # host
-    local SYS_NAME SYS_ARCH CPU_COUNT
+    local SYS_NAME CPU_COUNT
     SYS_NAME=$(uname | awk '{ print tolower($0)}')
-    SYS_ARCH=$(uname -m)
     if [[ "${SYS_NAME}" == "darwin" ]]; then
         CPU_COUNT=$(sysctl -n hw.activecpu 2>/dev/null)
-    elif [[ "${SYS_NAME}" == "linux" ]]; then
-        CPU_COUNT=$(grep -c processor /proc/cpuinfo 2>/dev/null)
     fi
     CPU_COUNT="${CPU_COUNT:-1}"
     [[ "${JOBS}" -eq 0 ]] && JOBS="${CPU_COUNT}"
@@ -381,7 +377,7 @@ default install-dir: /usr/local"
     fi
 
     # mac only
-    if [[ "$(uname)" != "Darwin" ]]; then
+    if [[ "${SYS_NAME}" != "darwin" ]]; then
         echo "macOS/Darwin required" >&2
         return 1
     fi
