@@ -426,18 +426,20 @@ default install-dir: /usr/local"
 
     # permissions
     local PATH_ORIG
-    mkdir -p "${PREFIX}" >/dev/null 2>&1
-    if [[ ! -w "${PREFIX}" ]]; then
-        if ! sudo -n date >/dev/null 2>&1; then
-            echo "sudo is required to install files to ${PREFIX}"
-            [[ "${SUDO}" != "" ]] && ${SUDO} -v
-        fi
-        sudo mkdir -p "${PREFIX}" >/dev/null 2>&1
-        if sudo touch "${PREFIX}" >/dev/null 2>&1; then
-            SUDO=sudo
-        else
-            echo "Unable to write to directory: ${PREFIX}" >&2
-            return 1
+    if [[ "${NOT_SKIPPED_TOTAL}" -gt 0 ]]; then
+        mkdir -p "${PREFIX}" >/dev/null 2>&1
+        if [[ ! -w "${PREFIX}" ]]; then
+            if ! sudo -n date >/dev/null 2>&1; then
+                echo "sudo is required to install files to ${PREFIX}"
+                [[ "${SUDO}" != "" ]] && ${SUDO} -v
+            fi
+            sudo mkdir -p "${PREFIX}" >/dev/null 2>&1
+            if sudo touch "${PREFIX}" >/dev/null 2>&1; then
+                SUDO=sudo
+            else
+                echo "Unable to write to directory: ${PREFIX}" >&2
+                return 1
+            fi
         fi
     fi
     PREFIX=$(cd "${PREFIX}" && pwd -P)
