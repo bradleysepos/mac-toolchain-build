@@ -425,7 +425,6 @@ default install-dir: /usr/local"
     done
 
     # permissions
-    local PATH_ORIG
     if [[ "${NOT_SKIPPED_TOTAL}" -gt 0 ]]; then
         mkdir -p "${PREFIX}" >/dev/null 2>&1
         if [[ ! -w "${PREFIX}" ]]; then
@@ -443,8 +442,6 @@ default install-dir: /usr/local"
         fi
     fi
     PREFIX=$(cd "${PREFIX}" && pwd -P)
-    PATH_ORIG="${PATH}"
-    export PATH="${PREFIX}/bin${PATH:+:$PATH}"
 
     # directory creation
     local PKG_DIR SOURCE_DIR BUILD_DIR
@@ -503,6 +500,7 @@ default install-dir: /usr/local"
 
     # build
     local INDEX
+    export PATH="${PREFIX}/bin${PATH:+:$PATH}"
 
     # autoconf
     INDEX=0
@@ -639,9 +637,6 @@ default install-dir: /usr/local"
         echo "    export PATH=\"${PREFIX}/bin:\${PATH}\""
     fi
     echo "Complete."
-
-    # restore original PATH
-    export PATH="${PATH_ORIG}"
 
     set +o pipefail
 }
