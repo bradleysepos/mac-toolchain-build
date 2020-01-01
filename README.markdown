@@ -64,5 +64,5 @@ mac-toolchain-build --list
 License
 -------
 
-Copyright 2019 Bradley Sepos  
+Copyright 2020 Bradley Sepos  
 Released under the MIT License. See [LICENSE](LICENSE) for details.
