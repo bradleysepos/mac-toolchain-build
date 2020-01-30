@@ -170,10 +170,10 @@ function mac_toolchain_build {
     local AUTOCONF_URLS AUTOMAKE_URLS CMAKE_URLS LIBTOOL_URLS MESON_URLS NASM_URLS NINJA_URLS PKGCONFIG_URLS URLS_VARNAMES
     AUTOCONF_URLS=("https://ftp.gnu.org/gnu/autoconf/autoconf-${AUTOCONF_VER}.tar.gz")
     AUTOMAKE_URLS=("https://ftp.gnu.org/gnu/automake/automake-${AUTOMAKE_VER}.tar.gz")
-    CMAKE_URLS=("https://cmake.org/files/v3.16/cmake-${CMAKE_VER}.tar.gz")
+    CMAKE_URLS=("https://cmake.org/files/v${CMAKE_VER%.*}/cmake-${CMAKE_VER}.tar.gz")
     LIBTOOL_URLS=("https://ftp.gnu.org/gnu/libtool/libtool-${LIBTOOL_VER}.tar.gz")
     MESON_URLS=("https://github.com/mesonbuild/meson/archive/${MESON_VER}.tar.gz")
-    NASM_URLS=("https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-${NASM_VER}.tar.bz2")
+    NASM_URLS=("https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VER}/nasm-${NASM_VER}.tar.bz2")
     NINJA_URLS=("https://github.com/ninja-build/ninja/archive/v${NINJA_VER}.tar.gz")
     PKGCONFIG_URLS=("https://pkg-config.freedesktop.org/releases/pkg-config-${PKGCONFIG_VER}.tar.gz")
     URLS_VARNAMES=('AUTOCONF_URLS' 'AUTOMAKE_URLS' 'CMAKE_URLS' 'LIBTOOL_URLS' 'MESON_URLS' 'NASM_URLS' 'NINJA_URLS' 'PKGCONFIG_URLS')
