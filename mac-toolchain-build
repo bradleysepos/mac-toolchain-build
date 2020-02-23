@@ -126,6 +126,15 @@ function die_gracefully {
     trap - TERM && kill -- -$$
 }
 
+# tests whether a string is an exact match for an array item
+function in_array {  # in_array needle haystack[@]
+    local e
+    for e in "${@:2}"; do
+        [[ "${e}" == "${1}" ]] && return 0
+    done
+    return 1
+}
+
 # builds toolchain components
 function mac_toolchain_build {
     set -o pipefail
