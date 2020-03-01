@@ -16,7 +16,7 @@ jobs:
       - name: Build Toolchain
         run: |
            chmod 755 scripts/*
-           scripts/mac-toolchain-build ~/toolchains/
+           ./mac-toolchain-build ~/toolchains/
            cd ~/
            tar cvzf macOS-toolchain.tar.gz toolchains/
       - name: Upload Release Asset
