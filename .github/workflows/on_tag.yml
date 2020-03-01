@@ -3,7 +3,7 @@ name: On Tag
 on:
   push:
     tags:
-      - 'v*' 
+      - '*' 
 
 jobs:
   
