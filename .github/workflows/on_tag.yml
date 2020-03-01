@@ -1,4 +1,4 @@
-name: Build Toolchains
+name: On Tag
 
 on:
   push:
