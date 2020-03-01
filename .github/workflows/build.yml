@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Toolchain
         run: |
-           chmod 755 scripts/*
+           chmod 755 mac-toolchain-build
            ./mac-toolchain-build ~/toolchains/
            cd ~/
            tar cvzf macOS-toolchain.tar.gz toolchains/
