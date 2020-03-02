@@ -1,4 +1,4 @@
-mac-toolchain-build
+mac-toolchain-build ![Build](https://github.com/bradleysepos/mac-toolchain-build/workflows/Build/badge.svg)
 ===================
 
 mac-toolchain-build is a Bash script for downloading and building common macOS toolchain components.
