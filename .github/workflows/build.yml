@@ -20,7 +20,6 @@ jobs:
            BUILD_VERSION="$(./mac-toolchain-build --version | cut -d ' ' -f 2)"
            ./mac-toolchain-build ~/toolchains/
            tar cvzf mac-toolchain-$BUILD_VERSION.tar.gz ~/toolchains/
-           ls -la
       - name: Upload Release Asset
         if: github.event_name == 'release'
         uses: AButler/upload-release-assets@v2.0
