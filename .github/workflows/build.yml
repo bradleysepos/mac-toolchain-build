@@ -19,7 +19,7 @@ jobs:
            chmod 755 mac-toolchain-build
            BUILD_VERSION="$(./mac-toolchain-build --version | cut -d ' ' -f 2)"
            BUILD_VERSION="${BUILD_VERSION:-0.0.0}"
-           ./mac-toolchain-build mac-toolchain-"${BUILD_VERSION}"
+           ./mac-toolchain-build --force mac-toolchain-"${BUILD_VERSION}"
            tar -cvzf mac-toolchain-"${BUILD_VERSION}".tar.gz mac-toolchain-"${BUILD_VERSION}"/
       - name: Upload Release Asset
         if: github.event_name == 'release'
