@@ -8,7 +8,7 @@ on:
       - created
 
 jobs:
-     
+
   build_mac_toolchain:
     name: Mac Toolchain
     runs-on: macos-latest
@@ -18,12 +18,12 @@ jobs:
         run: |
            chmod 755 mac-toolchain-build
            BUILD_VERSION="$(./mac-toolchain-build --version | cut -d ' ' -f 2)"
-           ./mac-toolchain-build ~/toolchains/
-           tar cvzf mac-toolchain-$BUILD_VERSION.tar.gz ~/toolchains/
+           BUILD_VERSION="${BUILD_VERSION:-0.0.0}"
+           ./mac-toolchain-build mac-toolchain-"${BUILD_VERSION}"
+           tar -cvzf mac-toolchain-"${BUILD_VERSION}".tar.gz mac-toolchain-"${BUILD_VERSION}"/
       - name: Upload Release Asset
         if: github.event_name == 'release'
         uses: AButler/upload-release-assets@v2.0
         with:
           files: '*.tar.gz'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-        
