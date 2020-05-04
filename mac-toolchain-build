@@ -393,7 +393,7 @@ default install-dir: /usr/local"
 
     # dependencies
     local DEPS
-    DEPS=("curl" "sed" "shasum|sha256sum")
+    DEPS=("curl" "python3" "sed" "shasum|sha256sum")
     check_dependencies "${DEPS[@]}" || return 1
 
     # sha256 binary
