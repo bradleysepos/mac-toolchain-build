@@ -393,7 +393,7 @@ default install-dir: /usr/local"
 
     # dependencies
     local DEPS
-    DEPS=("curl" "shasum|sha256sum")
+    DEPS=("curl" "sed" "shasum|sha256sum")
     check_dependencies "${DEPS[@]}" || return 1
 
     # sha256 binary
@@ -410,17 +410,12 @@ default install-dir: /usr/local"
     PREFIX="${1:-/usr/local}"
 
     # check installed tool versions, skip if adequate
-    local INSTALLED_VERSIONS SKIP NOT_SKIPPED_TOTAL TOOL_PATH
+    local INSTALLED_VERSIONS SKIP NOT_SKIPPED_TOTAL
     INSTALLED_VERSIONS=()
     SKIP=()
     NOT_SKIPPED_TOTAL=0
     for I in "${!NAMES[@]}"; do
-        if [[ "${NAMES[I]}" == "meson" ]]; then
-            TOOL_PATH=
-        else
-            TOOL_PATH="${PREFIX}/bin/"
-        fi
-        INSTALLED_VERSIONS[$I]=$("${TOOL_PATH}${NAMES[I]}" --version 2>&1 | head -n 1 | grep -Eo '[0-9]+\.[0-9]+(\.[0-9]+)?' 2>&1 | head -n 1)
+        INSTALLED_VERSIONS[$I]=$("${PREFIX}/bin/${NAMES[I]}" --version 2>&1 | head -n 1 | grep -Eo '[0-9]+\.[0-9]+(\.[0-9]+)?' 2>&1 | head -n 1)
         if [[ "${FORCE}" == false ]] && check_version_gte "${INSTALLED_VERSIONS[I]}" "${VERSIONS[I]}"; then
             SKIP[$I]=true
         else
@@ -581,7 +576,13 @@ default install-dir: /usr/local"
         touch "${BUILD_DIR}/${NAMES[$INDEX]}.log"
         mkdir -pv "${BUILD_DIR}/${NAMES[$INDEX]}" > "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         cd "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}"
-        ${SUDO} python3 setup.py install >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        ${SUDO} python3 setup.py --no-user-cfg install --root="${PREFIX}" --prefix=/ --install-scripts=/bin --install-lib=/bin --single-version-externally-managed --no-compile --force >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        ${SUDO} sed -i.bak '1s:.*:#!/usr/bin/env python3:' "${PREFIX}/bin/${NAMES[$INDEX]}" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        ${SUDO} rm -f "${PREFIX}/bin/${NAMES[$INDEX]}.bak" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        ${SUDO} rm -rf "${PREFIX}/bin/${NAMES[$INDEX]}build/__pycache__" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        ${SUDO} rm -rf "${PREFIX}/bin/${NAMES[$INDEX]}-${VERSIONS[$INDEX]}.dist-info" 2>&1 || return 1
+        ${SUDO} mv "${PREFIX}/bin/${NAMES[$INDEX]}-${VERSIONS[$INDEX]}"*.egg-info "${PREFIX}/bin/${NAMES[$INDEX]}-${VERSIONS[$INDEX]}.dist-info" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        ${SUDO} mv "${PREFIX}/bin/${NAMES[$INDEX]}-${VERSIONS[$INDEX]}.dist-info/PKG-INFO" "${PREFIX}/bin/${NAMES[$INDEX]}-${VERSIONS[$INDEX]}.dist-info/METADATA" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         echo ""
     fi
 
