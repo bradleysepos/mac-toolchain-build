@@ -203,7 +203,7 @@ function mac_toolchain_build {
     # internal vars
     local NAME VERSION SELF SELF_NAME HELP SUDO TOTAL
     NAME="mac-toolchain-build"
-    VERSION="2.5.0"
+    VERSION="2.6.0"
     SELF="${BASH_SOURCE[0]}"
     SELF_NAME=$(basename "${SELF}")
     HELP="\
