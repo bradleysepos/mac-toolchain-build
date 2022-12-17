@@ -614,7 +614,7 @@ default install-dir: /usr/local"
         touch "${BUILD_DIR}/${NAMES[$INDEX]}.log"
         mkdir -pv "${BUILD_DIR}/${NAMES[$INDEX]}" > "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         cd "${BUILD_DIR}/${NAMES[$INDEX]}"
-        "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}/configure.py" --bootstrap >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        python3 "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}/configure.py" --bootstrap >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         ${SUDO} mv ninja "${PREFIX}/bin" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         echo ""
     fi
