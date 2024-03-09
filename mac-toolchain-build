@@ -629,7 +629,7 @@ default install-dir: /usr/local"
         touch "${BUILD_DIR}/${NAMES[$INDEX]}.log"
         mkdir -pv "${BUILD_DIR}/${NAMES[$INDEX]}" > "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         cd "${BUILD_DIR}/${NAMES[$INDEX]}"
-        "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}/configure" --prefix="${PREFIX}" --with-internal-glib --disable-host-tool >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}/configure" --prefix="${PREFIX}" --with-internal-glib --disable-host-tool CFLAGS="-Wno-int-conversion" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         make -j "${JOBS}" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         ${SUDO} make install >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         echo ""
