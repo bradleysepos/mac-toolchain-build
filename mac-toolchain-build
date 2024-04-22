@@ -598,7 +598,7 @@ default install-dir: /usr/local"
         touch "${BUILD_DIR}/${NAMES[$INDEX]}.log"
         mkdir -pv "${BUILD_DIR}/${NAMES[$INDEX]}" > "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         cd "${BUILD_DIR}/${NAMES[$INDEX]}"
-        "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}/configure" --prefix="${PREFIX}" --enable-sections --enable-lto >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
+        "${SOURCE_DIR}/${NAMES[$INDEX]}/${PKGS[$INDEX]%\.tar\.*}/configure" --prefix="${PREFIX}" >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         make -j "${JOBS}" AR=ar RANLIB=ranlib >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         ${SUDO} make install >> "${BUILD_DIR}/${NAMES[$INDEX]}.log" 2>&1 || return 1
         echo ""
