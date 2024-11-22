@@ -49,9 +49,11 @@ Components
 - automake
 - cmake
 - libtool
+- m4
 - meson
 - nasm
 - ninja
+- openssl
 - pkg-config
 
 Display components list with version information:
