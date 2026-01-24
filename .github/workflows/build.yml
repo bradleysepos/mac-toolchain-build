@@ -22,8 +22,9 @@ jobs:
            ./mac-toolchain-build --force mac-toolchain-"${BUILD_VERSION}"
            tar -cvzf mac-toolchain-"${BUILD_VERSION}".tar.gz mac-toolchain-"${BUILD_VERSION}"/
       - name: Upload Release Asset
-        if: github.event_name == 'release'
+        if: github.event_name == 'push'
         uses: AButler/upload-release-assets@v3.0.1
         with:
           files: '*.tar.gz'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          release-tag: '2.13.0'
