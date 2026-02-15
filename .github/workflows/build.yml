@@ -30,8 +30,10 @@ jobs:
           if [[ "${PIPESTATUS[0]}" -eq 0 ]]; then SUCCESS=true; fi
         fi
         LOG_DIR=$(cat output.txt | grep 'logs and temporary files may exist at' | tail -n 1 | sed -e 's/logs and temporary files may exist at //')
-        tar -cvf ${{ github.job }}-logs-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}.tar \
-          $(find ${LOG_DIR} -type f -name "*.log") || true
+        if [[ "${LOG_DIR}" != "" ]]; then
+          tar -cvf ${{ github.job }}-logs-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}.tar \
+            $(find ${LOG_DIR} -type f -name "*.log") || true
+        fi
         if [[ "${SUCCESS}" == true ]]; then
           tar -cvzf mac-toolchain-"${BUILD_VERSION}".tar.gz mac-toolchain-"${BUILD_VERSION}"/
         else
