@@ -679,8 +679,8 @@ default install-dir: /usr/local"
         echo "    export PATH=\"${PREFIX}/bin:\${PATH}\""
     fi
     echo "Complete."
-
     set +o pipefail
+    return 0
 }
 
 trap die_gracefully EXIT INT TERM
