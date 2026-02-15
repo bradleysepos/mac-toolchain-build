@@ -113,7 +113,6 @@ function die_gracefully {
     trap - EXIT INT
     trap ":" INT  # prevent recursion due to spamming ctrl-c
     echo ""
-    echo "logs and temporary files may exist at ${TMPDIR%/}/mac-toolchain-build-*" >&2
     trap - TERM && kill -- -$$
 }
 
@@ -691,7 +690,9 @@ wait "${PID}" || CODE=$?
 trap - EXIT INT TERM
 
 if [[ "${CODE}" -ne 0 ]]; then
-    echo -n "error: subprocess returned non-zero error code (${CODE})" >&2
-    die_gracefully
+    echo ""
+    echo "error: subprocess returned non-zero error code (${CODE})" >&2
+    echo "logs and temporary files may exist at ${TMPDIR%/}/mac-toolchain-build-*" >&2
+    exit 1
 fi
 exit 0
