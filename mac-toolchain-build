@@ -364,6 +364,9 @@ default install-dir: /usr/local"
     CPU_COUNT="${CPU_COUNT:-1}"
     [[ "${JOBS}" -eq 0 ]] && JOBS="${CPU_COUNT}"
 
+    # begin output
+    echo -n "${NAME} ${VERSION}"
+
     # list components
     if [[ "${LIST}" == true ]]; then
         local COMPONENTS COMPONENTS_TEMP
@@ -375,16 +378,16 @@ default install-dir: /usr/local"
         IFS=$'\n'
         COMPONENTS=($(sort <<< "${COMPONENTS_TEMP[*]}"))
         IFS="${OIFS}"
-        echo "${NAME} ${VERSION}"
+        echo ""
         echo "Components:"
         for I in "${!COMPONENTS[@]}"; do
             echo "  ${COMPONENTS[$I]}"
         done
         return 0
+    else
+        # print job count when actually building
+        echo " (${JOBS} job$([[ ${JOBS} -gt 1 ]] && echo 's'))"
     fi
-
-    # begin output
-    echo "${NAME} ${VERSION} (${JOBS} job$([[ ${JOBS} -gt 1 ]] && echo 's'))"
 
     # mac only
     if [[ "${SYS_NAME}" != "darwin" ]]; then
