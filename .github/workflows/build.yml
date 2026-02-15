@@ -16,11 +16,28 @@ jobs:
     - uses: actions/checkout@v6
     - name: Build Toolchain
       run: |
-        chmod 755 mac-toolchain-build
         BUILD_VERSION="$(./mac-toolchain-build --version | cut -d ' ' -f 2)"
         BUILD_VERSION="${BUILD_VERSION:-0.0.0}"
-        ./mac-toolchain-build --force mac-toolchain-"${BUILD_VERSION}"
-        tar -cvzf mac-toolchain-"${BUILD_VERSION}".tar.gz mac-toolchain-"${BUILD_VERSION}"/
+        chmod 755 mac-toolchain-build
+        SUCCESS=false
+        if ./mac-toolchain-build --force mac-toolchain-"${BUILD_VERSION}" 2>&1 | tee output.txt; then
+          if [[ "${PIPESTATUS[0]}" -eq 0 ]]; then SUCCESS=true; fi
+        fi
+        LOG_DIR=$(cat output.txt | grep 'logs and temporary files may exist at' | tail -n 1 | sed -e 's/logs and temporary files may exist at //')
+        tar -cvf ${{ github.job }}-logs-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}.tar \
+          $(find ${LOG_DIR} -type f -name "*.log") || true
+        if [[ "${SUCCESS}" == true ]]; then
+          tar -cvzf mac-toolchain-"${BUILD_VERSION}".tar.gz mac-toolchain-"${BUILD_VERSION}"/
+        else
+          exit 1
+        fi
+    - name: Archive Build Logs Artifact
+      if: always()
+      uses: actions/upload-artifact@v6
+      with:
+        name: ${{ github.job }}-logs-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}
+        path: |
+          ${{ github.job }}-logs-${{ github.sha }}-${{ github.run_id }}-${{ github.run_number }}.tar
     - name: Upload Release Asset
       if: github.event_name == 'release'
       uses: AButler/upload-release-assets@v3.0.1
