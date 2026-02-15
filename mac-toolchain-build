@@ -400,6 +400,12 @@ default install-dir: /usr/local"
     DEPS=("curl" "python3" "sed" "shasum|sha256sum")
     check_dependencies "${DEPS[@]}" || return 1
 
+    # work around macos stub for python executable
+    if ! python3 --version >/dev/null 2>&1; then
+        echo "Python 3 required" >&2
+        return 1
+    fi
+
     # sha256 binary
     local SHA256
     if hash shasum >/dev/null 2>&1; then
