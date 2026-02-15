@@ -9,6 +9,7 @@ Requirements
 
 - macOS/Darwin
 - Xcode and Command Line Tools for Xcode
+- Python 3 and setuptools
 
 
 Installation
